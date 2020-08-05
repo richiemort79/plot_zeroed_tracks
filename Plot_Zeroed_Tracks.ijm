@@ -21,10 +21,15 @@ for (a=0; a<nResults(); a++) {
     	else{};
 }
 
-//Work though the data a track at a time
-for (b=1; b<(Track+1); b++)
 
-{
+//get the track numbers in an array to use as the index
+track_number = list_no_repeats ("Results", "Track");
+
+//get number of tracks (nTracks)
+Track = track_number.length;
+
+//Work though the data a track at a time
+for (b=1; b<(Track+1); b++) {
         x = newArray();
         y = newArray();
 
@@ -48,4 +53,36 @@ y_0 = getResult("Y", result);
 		}
 	}
 	
+}
+
+function list_no_repeats (table, heading) {
+//Returns an array of the entries in a column without repeats to use as an index
+
+//Check whether the table exists
+	if (isOpen(table)) {
+
+//get the entries in the column without repeats
+		no_repeats = newArray(getResultString(heading, 0));
+
+		for (i=0; i<nResults; i++) {
+			occurence = getResultString(heading, i);
+			for (j=0; j<no_repeats.length; j++) {
+				if (occurence != no_repeats[j]) {
+					flag = 0;
+				} else {
+						flag = 1;
+					}
+				}
+			
+			if (flag == 0) {
+				occurence = getResultString(heading, i);
+				no_repeats = Array.concat(no_repeats, occurence);	
+			}
+		}
+	} else {
+		Dialog.createNonBlocking("Error");
+		Dialog.addMessage("No table with the title "+table+" found.");
+		Dialog.show();
+	}
+	return no_repeats;
 }

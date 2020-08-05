@@ -1,2 +1,2 @@
 # Plot_Zeroed_Tracks.ijm
-Example macro plotiing ImageJ tracking data with a x/y 0 origin.
+Selects the in focus slice in each frame of a hyperstack and creates a new stack.
