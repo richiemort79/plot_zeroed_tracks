@@ -3,57 +3,52 @@
 //http://rsbweb.nih.gov/ij/plugins/track/track.html
 //assuming Results table column headings: Track > Slice > X > Y
 
-//some variables
-Track = 0;
-result = 1;
 
 //Plot the graph
 Plot.create("Scatter Plot", "X", "Y");
 //You may want to determine your own limits in some way here
-Plot.setLimits(-250, 250, -250, 250);
-
-//Get number of tracks
-for (a=0; a<nResults(); a++) {
-    if (getResult("Track",a)>Track)
-    {
-     Track = getResult("Track",a);
-    	}
-    	else{};
-}
-
+Plot.setLimits(-150, 150, -150, 150);
 
 //get the track numbers in an array to use as the index
 track_number = list_no_repeats ("Results", "Track");
 
-//get number of tracks (nTracks)
+//get number of tracks (Track)
 Track = track_number.length;
 
 //Work though the data a track at a time
-for (b=1; b<(Track+1); b++) {
-        x = newArray();
-        y = newArray();
 
-//get first x and y value
-x_0 = getResult("X", result);
-y_0 = getResult("Y", result);
-        
-   for (i=result; i<nResults; i++){  
-   	if (getResult("Track",i)==b) {
-            x1 = (getResult("X", i)) - x_0;
-            x = Array.concat(x, x1);   
-            y1 = (getResult("Y", i)) - y_0;          
-            y = Array.concat(y, y1);
-            result++;        
-
-//Plot each track       
-        Plot.setColor("red");
-        Plot.add("crosses", x, y);
-        Plot.setColor("darkGray");
-        Plot.add("lines", x, y);
-		}
-	}
+for (i=0; i<track_number.length; i++){
+//get the x, y values in an array
+	values_x = newArray();
+	values_y = newArray();
 	
-}
+	for (j=0; j<nResults; j++) {
+
+		if (getResultString("Track", j) == toString(track_number[i])){
+			frames = Array.concat(frames, getResult("Frame", j));
+			positions = Array.concat(positions, j);
+			x_val = getResult("X", j);
+			values_x = Array.concat(values_x, x_val);
+			y_val = getResult("Y", j);
+			values_y = Array.concat(values_y, y_val);
+			}
+		}
+
+	//get first x and y value
+	x_0 = values_x[0];
+	y_0 = values_y[0];
+
+	for (k=0; k<values_x.length; k++) {
+		addToArray((values_x[k]-x_0), values_x, k);	
+		addToArray((values_y[k]-y_0), values_y, k);	
+	}
+	//Plot each track       
+        Plot.setColor("red");
+        Plot.add("crosses", values_x, values_y);
+        Plot.setColor("darkGray");
+        Plot.add("lines", values_x, values_y);
+		
+	}
 
 function list_no_repeats (table, heading) {
 //Returns an array of the entries in a column without repeats to use as an index
@@ -85,4 +80,22 @@ function list_no_repeats (table, heading) {
 		Dialog.show();
 	}
 	return no_repeats;
+}
+
+function addToArray(value, array, position) {
+//allows one to update existing values in an array
+//adds the value to the array at the specified position, expanding if necessary - returns the modified array
+//From Richard Wheeler - http://www.richardwheeler.net/contentpages/text.php?gallery=ImageJ_Macros&file=Array_Tools&type=ijm
+    
+    if (position < lengthOf(array)) {
+        array[position]=value;
+    } else {
+        temparray = newArray(position+1);
+        for (i=0; i<lengthOf(array); i++) {
+            temparray[i]=array[i];
+        }
+        temparray[position]=value;
+        array=temparray;
+    }
+    return array;
 }
