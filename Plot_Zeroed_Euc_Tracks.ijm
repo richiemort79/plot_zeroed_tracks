@@ -97,7 +97,10 @@ for (i=0; i<track_number.length; i++){
 	print("Weighted Angles");
 	Array.print(weighted_angles);
 	
-	
+//Plot the weighted histogram
+Plot.create("Histogram " + "of Weighted Angles", "Angle", "Freq");
+Plot.setColor("blue", "#ddddff"); 
+Plot.addHistogram(weighted_angles, 36, 18);
 
 function list_no_repeats (table, heading) {
 //Returns an array of the entries in a column without repeats to use as an index
