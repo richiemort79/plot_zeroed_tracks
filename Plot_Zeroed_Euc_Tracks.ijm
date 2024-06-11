@@ -15,6 +15,10 @@ track_number = list_no_repeats ("Results", "Track");
 //get number of tracks (Track)
 Track = track_number.length;
 
+//record the length and angle of each track
+euc_angles = newArray();
+euc_lengths = newArray();
+
 //Work though the data a track at a time
 
 for (i=0; i<track_number.length; i++){
@@ -47,6 +51,7 @@ for (i=0; i<track_number.length; i++){
 		addToArray((values_y[k]-y_0), values_y, k);	
 	}
 	
+	//get the strat and end of tracks for euclidean data	
 	x_0 = values_x[0];
 	y_0 = values_y[0];
 	x_max = values_x[values_x.length-1];
@@ -56,13 +61,28 @@ for (i=0; i<track_number.length; i++){
 	euc_x = Array.concat(euc_x, x_max);
 	euc_y = Array.concat(euc_y, y_max);
 	
+	//record the track angle and length
+	euc_ang = getAngle(x_0, y_0, x_max, y_max);
+	euc_angles = Array.concat(euc_angles, euc_ang);
+	euc_len = values_x.length;
+	euc_lengths = Array.concat(euc_lengths, euc_len);
+	
 	//Plot each track       
+        Plot.setColor("gray");
+        Plot.add("dots", values_x, values_y);
+        Plot.setColor("gray");
+        Plot.add("lines", values_x, values_y);
+        
+    //Plot each euclidean track       
         Plot.setColor("red");
         Plot.add("crosses", euc_x, euc_y);
-        Plot.setColor("darkGray");
+        Plot.setColor("red");
         Plot.add("lines", euc_x, euc_y);
-		
 	}
+	print("Angles");
+	Array.print();
+	print("Lengths");
+	Array.print();
 
 function list_no_repeats (table, heading) {
 //Returns an array of the entries in a column without repeats to use as an index
@@ -113,3 +133,30 @@ function addToArray(value, array, position) {
     }
     return array;
 }
+
+ // Returns the angle in degrees between the specified line and the horizontal axis.
+  function getAngle(x1, y1, x2, y2) {
+      q1=0; q2orq3=2; q4=3; //quadrant
+      dx = x2-x1;
+      dy = y1-y2;
+      if (dx!=0)
+          angle = atan(dy/dx);
+      else {
+          if (dy>=0)
+              angle = PI/2;
+          else
+              angle = -PI/2;
+      }
+      angle = (180/PI)*angle;
+      if (dx>=0 && dy>=0)
+           quadrant = q1;
+      else if (dx<0)
+          quadrant = q2orq3;
+      else
+          quadrant = q4;
+      if (quadrant==q2orq3)
+          angle = angle+180.0;
+      else if (quadrant==q4)
+          angle = angle+360.0;
+      return angle;
+  }
