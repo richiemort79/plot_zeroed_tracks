@@ -19,6 +19,8 @@ Track = track_number.length;
 euc_angles = newArray();
 euc_lengths = newArray();
 weighted_angles = newArray();
+all_angles = newArray();
+cum_angles = newArray();
 
 //Work though the data a track at a time
 
@@ -52,7 +54,7 @@ for (i=0; i<track_number.length; i++){
 		addToArray((values_y[k]-y_0), values_y, k);	
 	}
 	
-	//get the strat and end of tracks for euclidean data	
+	//get the start and end of tracks for euclidean data	
 	x_0 = values_x[0];
 	y_0 = values_y[0];
 	x_max = values_x[values_x.length-1];
@@ -67,6 +69,18 @@ for (i=0; i<track_number.length; i++){
 	euc_angles = Array.concat(euc_angles, euc_ang);
 	euc_len = values_x.length;
 	euc_lengths = Array.concat(euc_lengths, euc_len);
+	
+	//get the angle euc_angle at each time point
+	for (l=1; l<values_x.length; l++) {
+			x1 = values_x[l-1];
+			y1 = values_y[l-1];
+			x2 = values_x[l];
+			y2 = values_y[l];
+			all_ang = getAngle(x1,y1,x2,y2);
+			all_angle = Array.concat(all_angles, all_ang);
+			cum_ang = getAngle(x0,y0,x2,y2);
+			cum_angle = Array.concat(cum_angles, cum_ang);
+	}
 	
 	//Plot each track       
         Plot.setColor("gray");
