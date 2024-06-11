@@ -18,6 +18,7 @@ Track = track_number.length;
 //record the length and angle of each track
 euc_angles = newArray();
 euc_lengths = newArray();
+weighted_angles = newArray();
 
 //Work though the data a track at a time
 
@@ -79,10 +80,24 @@ for (i=0; i<track_number.length; i++){
         Plot.setColor("red");
         Plot.add("lines", euc_x, euc_y);
 	}
+	
+	//loop through the angles and lengths and weight the angles by length
+	for (i=0; i<euc_angles.length; i++) {
+		w_ang = euc_angles[i];
+		w_len = euc_lengths[i];
+		for (j=0; j<w_len; j++) {
+			weighted_angles = Array.concat(weighted_angles,w_ang);
+		}
+	}
+	
 	print("Angles");
-	Array.print();
+	Array.print(euc_angles);
 	print("Lengths");
-	Array.print();
+	Array.print(euc_lengths);
+	print("Weighted Angles");
+	Array.print(weighted_angles);
+	
+	
 
 function list_no_repeats (table, heading) {
 //Returns an array of the entries in a column without repeats to use as an index
