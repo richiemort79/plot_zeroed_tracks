@@ -22,8 +22,8 @@ for (i=0; i<track_number.length; i++){
 	values_x = newArray();
 	values_y = newArray();
 	
-	euc_x = newArray();
-	euc_y = newArray();
+	euc_x = newArray(0);
+	euc_y = newArray(0);
 	
 	for (j=0; j<nResults; j++) {
 
@@ -40,16 +40,19 @@ for (i=0; i<track_number.length; i++){
 	//get first x and y value
 	x_0 = values_x[0];
 	y_0 = values_y[0];
-	x_0 = euc_x[0];
-	y_0 = euc_y[0];
+	
 
 	for (k=0; k<values_x.length; k++) {
 		addToArray((values_x[k]-x_0), values_x, k);	
 		addToArray((values_y[k]-y_0), values_y, k);	
 	}
 	
-	x_max = values_x[values_x.length];
-	y_max = values_y[values_y.length];
+	x_0 = values_x[0];
+	y_0 = values_y[0];
+	x_max = values_x[values_x.length-1];
+	y_max = values_y[values_y.length-1];
+	euc_x = Array.concat(euc_x, x_0);
+	euc_y = Array.concat(euc_y, y_0);
 	euc_x = Array.concat(euc_x, x_max);
 	euc_y = Array.concat(euc_y, y_max);
 	
