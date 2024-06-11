@@ -81,26 +81,32 @@ for (i=0; i<track_number.length; i++){
         Plot.add("lines", euc_x, euc_y);
 	}
 	
-	//loop through the angles and lengths and weight the angles by length
-	for (i=0; i<euc_angles.length; i++) {
-		w_ang = euc_angles[i];
-		w_len = euc_lengths[i];
-		for (j=0; j<w_len; j++) {
-			weighted_angles = Array.concat(weighted_angles,w_ang);
-		}
+Plot.show();
+	
+//loop through the angles and lengths and weight the angles by length
+for (i=0; i<euc_angles.length; i++) {
+	w_ang = euc_angles[i];
+	w_len = euc_lengths[i];
+	for (j=0; j<w_len; j++) {
+		weighted_angles = Array.concat(weighted_angles,w_ang);
 	}
-	
-	print("Angles");
-	Array.print(euc_angles);
-	print("Lengths");
-	Array.print(euc_lengths);
-	print("Weighted Angles");
-	Array.print(weighted_angles);
-	
+}
+
 //Plot the weighted histogram
 Plot.create("Histogram " + "of Weighted Angles", "Angle", "Freq");
 Plot.setColor("blue", "#ddddff"); 
 Plot.addHistogram(weighted_angles, 36, 18);
+Plot.show();
+
+//Print the data to the log
+print("Angles");
+Array.print(euc_angles);
+print("Lengths");
+Array.print(euc_lengths);
+print("Weighted Angles");
+Array.print(weighted_angles);
+
+//////////////////////////////////////////////////////////////////////Functions///////////////////////////////////////////////////////////////////
 
 function list_no_repeats (table, heading) {
 //Returns an array of the entries in a column without repeats to use as an index
