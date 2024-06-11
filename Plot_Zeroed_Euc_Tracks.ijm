@@ -77,9 +77,9 @@ for (i=0; i<track_number.length; i++){
 			x2 = values_x[l];
 			y2 = values_y[l];
 			all_ang = getAngle(x1,y1,x2,y2);
-			all_angle = Array.concat(all_angles, all_ang);
-			cum_ang = getAngle(x0,y0,x2,y2);
-			cum_angle = Array.concat(cum_angles, cum_ang);
+			all_angles = Array.concat(all_angles, all_ang);
+			cum_ang = getAngle(x_0,y_0,x2,y2);
+			cum_angles = Array.concat(cum_angles, cum_ang);
 	}
 	
 	//Plot each track       
@@ -106,19 +106,23 @@ for (i=0; i<euc_angles.length; i++) {
 	}
 }
 
-//Plot the weighted histogram
-Plot.create("Histogram " + "of Weighted Angles", "Angle", "Freq");
+//Plot the cumulative euclidean histogram
+Plot.create("Histogram " + "of Cumulative Euclidean Angles", "Angle", "Freq");
 Plot.setColor("blue", "#ddddff"); 
-Plot.addHistogram(weighted_angles, 36, 18);
+Plot.addHistogram(cum_angles, 7.2, 3.6);
 Plot.show();
 
 //Print the data to the log
-print("Angles");
+print("Track Euclidean Angles");
 Array.print(euc_angles);
-print("Lengths");
+print("Track Lengths");
 Array.print(euc_lengths);
-print("Weighted Angles");
+print("Track Weighted Angles");
 Array.print(weighted_angles);
+print("Individual Angles");
+Array.print(all_angles);
+print("Individual Eucidean Angles");
+Array.print(cum_angles);
 
 //////////////////////////////////////////////////////////////////////Functions///////////////////////////////////////////////////////////////////
 
