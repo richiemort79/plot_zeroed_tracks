@@ -22,6 +22,9 @@ for (i=0; i<track_number.length; i++){
 	values_x = newArray();
 	values_y = newArray();
 	
+	euc_x = newArray();
+	euc_y = newArray();
+	
 	for (j=0; j<nResults; j++) {
 
 		if (getResultString("Track", j) == toString(track_number[i])){
@@ -37,16 +40,24 @@ for (i=0; i<track_number.length; i++){
 	//get first x and y value
 	x_0 = values_x[0];
 	y_0 = values_y[0];
+	x_0 = euc_x[0];
+	y_0 = euc_y[0];
 
 	for (k=0; k<values_x.length; k++) {
 		addToArray((values_x[k]-x_0), values_x, k);	
 		addToArray((values_y[k]-y_0), values_y, k);	
 	}
+	
+	x_max = values_x[values_x.length];
+	y_max = values_y[values_y.length];
+	euc_x = Array.concat(euc_x, x_max);
+	euc_y = Array.concat(euc_y, y_max);
+	
 	//Plot each track       
         Plot.setColor("red");
-        Plot.add("crosses", values_x, values_y);
+        Plot.add("crosses", euc_x, euc_y);
         Plot.setColor("darkGray");
-        Plot.add("lines", values_x, values_y);
+        Plot.add("lines", euc_x, euc_y);
 		
 	}
 
