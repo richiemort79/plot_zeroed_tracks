@@ -1,19 +1,20 @@
-setwd("/home/richiemort/Downloads")
-data = read.csv("weighted_angles.csv")
+setwd("/home/richardm/Downloads")
+data = read.csv("test_data.csv")
 attach(data)
 variable_list = names(data)
 sub_list = variable_list[c(-1)]
 p_vals<-c()
 for(i in sub_list)
 	{       
-	the_test = ks.test(control,data[[i]])
-	print(the_test$p.value)
+	the_test = ks.test(Control,data[[i]])
+	#print(the_test$p.value)
 	p_vals<-c(p_vals,the_test$p.value)
 	}
-print(p_vals)
 cor_vals = p.adjust(p_vals, method = "fdr")
+print(sub_list)
+print(p_vals)
 print(cor_vals)
-
+detach(data)
 
 
 
