@@ -1,5 +1,5 @@
-setwd("/home/richardm/Downloads")
-data = read.csv("test_data.csv")
+setwd(PUT YOUR DIRECTORY HERE)
+data = read.csv(FILENAME)
 attach(data)
 variable_list = names(data)
 sub_list = variable_list[c(-1)]
