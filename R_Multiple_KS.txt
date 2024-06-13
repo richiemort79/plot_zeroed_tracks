@@ -1,21 +1,39 @@
-setwd(PUT YOUR DIRECTORY HERE)
-data = read.csv(FILENAME)
-attach(data)
-variable_list = names(data)
-sub_list = variable_list[c(-1)]
-p_vals<-c()
-for(i in sub_list)
-	{       
-	the_test = ks.test(Control,data[[i]])
-	#print(the_test$p.value)
-	p_vals<-c(p_vals,the_test$p.value)
-	}
-cor_vals = p.adjust(p_vals, method = "fdr")
-print(sub_list)
-print(p_vals)
-print(cor_vals)
-detach(data)
+	setwd(WORKING DIRECTORY HERE)
+	#setwd("/home/richiemort/Downloads")
+	data = read.csv(FILENAME HERE)
+	#data = read.csv("weighted_angles.csv")
+	attach(data)
+	variable_list = names(data)
+	sub_list = variable_list[c(-1)]
+	p_vals<-c()
+	for(i in sub_list)
+		
+		{       
+		
+		the_test = ks.test(control,data[[i]])
+		#print(the_test$p.value)
+		p_vals<-c(p_vals,the_test$p.value)
+		
+		breaks = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250, 260, 270, 280, 290, 300, 310, 320, 330, 340, 350, 360)
+		
+		dev.new()
+		h = hist(data[[i]], breaks = breaks)
+		
+		d <- structure(list(Angle = h$mids, Frequency = as.numeric(h$counts)), .Names = c("Angle", "Frequency"), class = "data.frame")
+		
+		library(ggplot2)
+		
+		dev.new()
+		print(ggplot(d, aes(x = Angle, y = Frequency)) +
+	  		coord_polar(theta = "x", start = 0) +
+	  		geom_bar(stat = "identity") +
+	  		scale_x_continuous(breaks = seq(0, 360, 60)))
+		
+		}
 
-
-
+	cor_vals = p.adjust(p_vals, method = "fdr")
+	print(sub_list)
+	print(p_vals)
+	print(cor_vals)
+	detach(data)
 

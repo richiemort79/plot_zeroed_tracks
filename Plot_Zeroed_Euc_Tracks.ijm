@@ -88,7 +88,7 @@ for (i=0; i<track_number.length; i++){
         Plot.setColor("gray");
         Plot.add("lines", values_x, values_y);
         
-    //Plot each euclidean track       
+    	//Plot each euclidean track       
         Plot.setColor("red");
         Plot.add("crosses", euc_x, euc_y);
         Plot.setColor("red");
