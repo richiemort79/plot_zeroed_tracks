@@ -1,7 +1,7 @@
-	setwd(WORKING DIRECTORY HERE)
-	#setwd("/home/richiemort/Downloads")
-	data = read.csv(FILENAME HERE)
-	#data = read.csv("weighted_angles.csv")
+	#setwd(WORKING DIRECTORY HERE)
+	setwd("/home/richiemort/Downloads")
+	#data = read.csv(FILENAME HERE)
+	data = read.csv("weighted_angles.csv")
 	attach(data)
 	variable_list = names(data)
 	sub_list = variable_list[c(-1)]
@@ -25,9 +25,9 @@
 		
 		dev.new()
 		print(ggplot(d, aes(x = Angle, y = Frequency)) +
-	  		coord_polar(theta = "x", start = 0) +
+	  		coord_polar(theta = "x", start = -pi/2) +
 	  		geom_bar(stat = "identity") +
-	  		scale_x_continuous(breaks = seq(0, 360, 60)))
+	  		scale_x_continuous(breaks = c(0,45,90,135,180,225,270,315), expand = c(.002,0)))
 		
 		}
 
