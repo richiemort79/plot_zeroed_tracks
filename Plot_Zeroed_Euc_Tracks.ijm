@@ -3,7 +3,6 @@
 //http://rsbweb.nih.gov/ij/plugins/track/track.html
 //assuming Results table column headings: Track > Slice > X > Y
 
-
 //Plot the graph
 Plot.create("Scatter Plot", "X", "Y");
 //You may want to determine your own limits in some way here
@@ -109,22 +108,13 @@ for (i=0; i<euc_angles.length; i++) {
 //Plot the cumulative euclidean histogram
 Plot.create("Histogram " + "of Cumulative Euclidean Angles", "Angle", "Freq");
 Plot.setColor("blue", "#ddddff"); 
-//Plot.addHistogram(euc_angles, 7.2, 3.6);
-//Plot.addHistogram(weighted_angles, 7.2, 3.6);
-//Plot.addHistogram(all_angles, 7.2, 3.6);
 Plot.addHistogram(cum_angles, 7.2, 3.6);
 
-//Print the data to the log
-print("Track Euclidean Angles");
-Array.print(euc_angles);
-print("Track Lengths");
-Array.print(euc_lengths);
-print("Track Weighted Angles");
-Array.print(weighted_angles);
-print("Individual Angles");
-Array.print(all_angles);
-print("Individual Eucidean Angles");
-Array.print(cum_angles);
+//Print All_Angles and Cumulative angles to the log
+print("All_Angles, Cumulative_Euc_Angles");
+for (i=0; i<all_angles.length; i++) {
+	print(all_angles[i]+","+cum_angles[i]);
+}
 
 //////////////////////////////////////////////////////////////////////Functions///////////////////////////////////////////////////////////////////
 
