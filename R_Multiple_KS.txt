@@ -15,6 +15,8 @@ for(i in variable_list)
 	#print(the_test$p.value)
 	p_vals<-c(p_vals,the_test$p.value)
 		}
+
+cor_vals = p.adjust(p_vals, method = "fdr")
 	
 #plot all the data as histograms
 count = 0;
@@ -31,13 +33,8 @@ for(i in variable_list)
 		
 	library(ggplot2)
 	
-	#print(i);
-	#print(variable_list)	
-	#print(variable_list[i])
 	plot_label = paste("Euclidean angles for",i)
-	sub_title = paste("ks-test P value =",p_vals[count])
-
-	#print(plot_label)
+	sub_title = paste("ks-test Control vs",i," P =",cor_vals[count], "(fdr corrected)")
 		
 	dev.new()
 	print(ggplot(d, aes(x = Angle, y = Frequency)) +
@@ -47,10 +44,6 @@ for(i in variable_list)
   		scale_x_continuous(breaks = c(0,45,90,135,180,225,270,315), expand = c(.002,0)))	
 		}
 
-cor_vals = p.adjust(p_vals, method = "fdr")
-print(variable_list)
-print(p_vals)
-print(cor_vals)
 detach(data)
 
 
