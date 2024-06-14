@@ -19,7 +19,7 @@ euc_angles = newArray();//angle of the euclidean distance for the whole track
 euc_lengths = newArray();//number of time steps per track
 weighted_angles = newArray();//euc_angles x the time steps e.g. for track 1 if it is 60o and 10 steps long 60o appears 10 times
 all_angles = newArray();//all the individual angles per time step
-cum_angles = newArray();//
+cum_euc_angles = newArray();//
 
 //Work though the data a track at a time
 
@@ -77,8 +77,8 @@ for (i=0; i<track_number.length; i++){
 			y2 = values_y[l];
 			all_ang = getAngle(x1,y1,x2,y2);
 			all_angles = Array.concat(all_angles, all_ang);
-			cum_ang = getAngle(x_0,y_0,x2,y2);
-			cum_angles = Array.concat(cum_angles, cum_ang);
+			cum_euc_ang = getAngle(x_0,y_0,x2,y2);
+			cum_euc_angles = Array.concat(cum_euc_angles, cum_euc_ang);
 	}
 	
 	//Plot each track       
@@ -108,12 +108,12 @@ for (i=0; i<euc_angles.length; i++) {
 //Plot the cumulative euclidean histogram
 Plot.create("Histogram " + "of Cumulative Euclidean Angles", "Angle", "Freq");
 Plot.setColor("blue", "#ddddff"); 
-Plot.addHistogram(cum_angles, 7.2, 3.6);
+Plot.addHistogram(cum_euc_angles, 7.2, 3.6);
 
 //Print All_Angles and Cumulative angles to the log
 print("All_Angles, Cumulative_Euc_Angles");
 for (i=0; i<all_angles.length; i++) {
-	print(all_angles[i]+","+cum_angles[i]);
+	print(all_angles[i]+","+cum_euc_angles[i]);
 }
 
 //////////////////////////////////////////////////////////////////////Functions///////////////////////////////////////////////////////////////////
