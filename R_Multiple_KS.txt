@@ -1,8 +1,10 @@
+#uncomment to plot in seperate windows when using Rstudio
+#options(device  = "windows")
+library(ggplot2)
 #setwd(WORKING DIRECTORY HERE)
-#setwd("/home/richiemort/Downloads")
-setwd("/home/richardm/Downloads")
+setwd("/home/richiemort/Dropbox/git-repos/plot_zeroed_tracks")
+#setwd("/home/richardm/Downloads")
 #data = read.csv(FILENAME HERE)
-#data = read.csv("weighted_angles.csv")
 data = read.csv("test_data.csv")
 attach(data)
 variable_list = names(data)
@@ -30,11 +32,9 @@ for(i in variable_list)
 	dev.off()
 		
 	d <- structure(list(Angle = h$mids, Frequency = as.numeric(h$counts)), .Names = c("Angle", "Frequency"), class = "data.frame")
-		
-	library(ggplot2)
 	
 	plot_label = paste("Euclidean angles for",i)
-	sub_title = paste("ks-test Control vs",i," P =",cor_vals[count], "(fdr corrected)")
+	sub_title = paste("ks-test Control vs",i," P =",format.pval(cor_vals[count]), "(fdr corrected)")
 		
 	dev.new()
 	print(ggplot(d, aes(x = Angle, y = Frequency)) +
