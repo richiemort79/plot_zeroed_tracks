@@ -39,7 +39,7 @@ for(i in variable_list)
 	dev.new()
 	print(ggplot(d, aes(x = Angle, y = Frequency)) +
   		ggtitle(label = plot_label, subtitle = sub_title)+
-    		coord_polar(theta = "x", start = -pi/2) +
+    		coord_polar(theta = "x", start = -pi/-2) +
   		geom_bar(stat = "identity", fill = "#ddddff", color = "blue", size = 0.25) +
   		scale_x_continuous(breaks = c(0,45,90,135,180,225,270,315), expand = c(.002,0)))	
 		}
