@@ -19,6 +19,8 @@ for(i in variable_list)
 		}
 
 cor_vals = p.adjust(p_vals, method = "fdr")
+print("FDR Corrected P-values 'vs' Control")
+print(variable_list)
 print(format.pval(cor_vals))
 	
 #plot all the data as histograms
