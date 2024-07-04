@@ -110,10 +110,11 @@ Plot.create("Histogram " + "of Cumulative Euclidean Angles", "Angle", "Freq");
 Plot.setColor("blue", "#ddddff"); 
 Plot.addHistogram(cum_euc_angles, 7.2, 3.6);
 
-//Print All_Angles and Cumulative angles to the log
-print("All_Angles, Cumulative_Euc_Angles");
+//Print everything to the log
+print("All_Angles, Cumulative_Euc_Angles, Weighted_Angles, Euc_Angles");
 for (i=0; i<all_angles.length; i++) {
-	print(all_angles[i]+","+cum_euc_angles[i]);
+	if(i<euc_angles.length){euc_result = euc_angles[i];} else {euc_result = "";}
+	print(all_angles[i]+","+cum_euc_angles[i]+","+weighted_angles[i]+","+euc_result);
 }
 
 //////////////////////////////////////////////////////////////////////Functions///////////////////////////////////////////////////////////////////
