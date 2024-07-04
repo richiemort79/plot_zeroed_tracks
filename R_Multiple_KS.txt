@@ -1,25 +1,112 @@
+#######function to convert set of angles into radians
+Convert_Radian <- function(angles){
+	radians <- c()
+	for (i in 1:length(angles)){
+		rad = angles[i] * pi/180
+		radians <- c(radians,rad)}
+	
+	#print(angles)
+	#print(radians)
+	return(radians)
+	}
+
+#######modified watson.two function that returns a p value requires CircStats
+watson.two.p <- function (x, y, alpha = 0, plot = FALSE) {
+    n1 <- length(x)
+    n2 <- length(y)
+    n <- n1 + n2
+    if (n < 18) 
+        cat("Total Sample Size < 18:  Consult tabulated critical values", 
+            "\n", "\n")
+    if (plot == TRUE) {
+        x <- sort(x%%(2 * pi))
+        y <- sort(y%%(2 * pi))
+        plotedf(x, main = "Comparison of Empirical CDFs", xlab = "", 
+            ylab = "")
+        par(new = TRUE)
+        plotedf(y, xlab = "", ylab = "", axes = FALSE, lty = 2)
+    }
+    cat("\n", "      Watson's Two-Sample Test of Homogeneity", 
+        "\n", "\n")
+    x <- cbind(sort(x%%(2 * pi)), rep(1, n1))
+    y <- cbind(sort(y%%(2 * pi)), rep(2, n2))
+    xx <- rbind(x, y)
+    rank <- order(xx[, 1])
+    xx <- cbind(xx[rank, ], seq(1:n))
+    a <- c(1:n)
+    b <- c(1:n)
+    for (i in 1:n) {
+        a[i] <- sum(xx[1:i, 2] == 1)
+        b[i] <- sum(xx[1:i, 2] == 2)
+    }
+    d <- b/n2 - a/n1
+    dbar <- mean(d)
+    u2 <- (n1 * n2)/n^2 * sum((d - dbar)^2)
+    crits <- c(99, 0.385, 0.268, 0.187, 0.152)
+    cat("Test Statistic:", round(u2, 4), "\n")
+    
+    if (sum(alpha == c(0, 0.001, 0.01, 0.05, 0.1)) == 0) 
+        stop("Invalid input for alpha")
+    else if (alpha == 0) {
+        if (u2 > 0.385) {
+            cat("P-value < 0.001", "\n", "\n")
+            thepvalue <- 0.001-(0.001*0.001)}
+        else if (u2 > 0.268) {
+            cat("0.001 < P-value < 0.01", "\n", "\n") 
+            thepvalue <- 0.01-(0.01*0.001)}
+        else if (u2 > 0.187) {
+            cat("0.01 < P-value < 0.05", "\n", "\n") 
+            thepvalue <- 0.05-(0.05*0.001)   }
+        else if (u2 > 0.152) {
+            cat("0.05 < P-value < 0.10", "\n", "\n") 
+            thepvalue <- 0.1-(0.1*0.001)     }   
+        else {at("P-value > 0.10", "\n", "\n")
+             thepvalue <- 0.10+(0.10*0.001)}
+    }
+    else {
+        index <- (1:5)[alpha == c(0, 0.001, 0.01, 0.05, 0.1)]
+        Critical <- crits[index]
+        if (u2 > Critical) 
+            Reject <- "Reject Null Hypothesis"
+        else Reject <- "Do Not Reject Null Hypothesis"
+        cat("Level", alpha, "Critical Value:", round(Critical, 
+            4), "\n")
+        cat(Reject, "\n", "\n")
+    }
+    
+    return(thepvalue)
+}
+	
+library(ggplot2)
+library(CircStats)
+
 #uncomment to plot in seperate windows when using Rstudio
 #options(device  = "windows")
-library(ggplot2)
 #setwd(WORKING DIRECTORY HERE)
 setwd("/home/richiemort/Dropbox/git-repos/plot_zeroed_tracks")
 #setwd("/home/richardm/Downloads")
 #data = read.csv(FILENAME HERE)
+
 data = read.csv("test_data.csv")
 attach(data)
 variable_list = names(data)
 p_vals<-c()
 	
-#do pairwise tests between control and experimental groups, correct for multiple testing
+#do watson two pairwise tests between control and experimental groups, correct for multiple testing
 for(i in variable_list)	
 	{       
-	the_test = ks.test(Control,data[[i]])
-	#print(the_test$p.value)
-	p_vals<-c(p_vals,the_test$p.value)
+	Control_r = Convert_Radian(Control)
+	test_r = Convert_Radian(data[[i]])
+	
+	the_test = watson.two.p(Control_r,test_r)
+	print(the_test)
+	p_vals<-c(p_vals,the_test)
 		}
 
+print(p_vals)
+
 cor_vals = p.adjust(p_vals, method = "fdr")
-print("FDR Corrected P-values 'vs' Control")
+print("FDR Corrected Watson Two P-values 'vs' Control")
 print(variable_list)
 print(format.pval(cor_vals))
 	
